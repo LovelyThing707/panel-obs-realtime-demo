@@ -46,6 +46,8 @@
       this.role = role;
       this.room = room;
       this.channelName = 'room:' + room;
+      // Presence requires a clientId; generate a stable one per page load.
+      this.clientId = role + '-' + Math.random().toString(36).slice(2, 10);
       this.handlers = { open: [], close: [], message: [], status: [] };
       this.id = null;
       // The panel is the source of truth for durable state; it publishes this
@@ -75,6 +77,7 @@
       this.ably = new global.Ably.Realtime({
         authUrl: '/api/ably-token',
         authParams: { room: this.room },
+        clientId: this.clientId,
         // echo is fine: neither role subscribes to what it publishes.
         echoMessages: true,
       });

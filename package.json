@@ -4,6 +4,6 @@
   "private": true,
   "description": "Browser control panel driving an OBS Browser Source overlay in real time, with a live latency readout. Static pages on Vercel + Ably for the realtime channel.",
   "dependencies": {
-    "ably": "^2.5.0"
+    "ably": "^2.24.0"
   }
 }

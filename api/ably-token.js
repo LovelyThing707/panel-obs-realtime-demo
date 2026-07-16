@@ -31,6 +31,9 @@ module.exports = async (req, res) => {
   try {
     const rest = new Ably.Rest(key);
     const tokenRequest = await rest.auth.createTokenRequest({
+      // '*' lets each browser assume its own clientId (required for presence);
+      // the channel capability below is what actually isolates the room.
+      clientId: '*',
       capability: JSON.stringify({ ['room:' + room]: ['publish', 'subscribe', 'presence'] }),
       ttl: 60 * 60 * 1000, // 1 hour; the client re-auths automatically
     });
