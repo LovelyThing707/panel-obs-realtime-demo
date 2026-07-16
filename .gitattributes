@@ -1,0 +1,2 @@
+# Normalize to LF in the repo so the Linux build gets consistent files.
+* text=auto eol=lf
