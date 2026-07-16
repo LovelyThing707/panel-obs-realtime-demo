@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Panel → OBS リアルタイムデモ</title>
+<style>
+  :root { color-scheme: dark; }
+  body {
+    margin: 0; min-height: 100dvh; display: grid; place-items: center;
+    background: #0e1419; color: #e8eef2;
+    font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+  }
+  .card { width: min(520px, 90vw); padding: 32px; background: #161f27;
+    border: 1px solid #243139; border-radius: 16px; }
+  h1 { font-size: 18px; margin: 0 0 4px; letter-spacing: .04em; }
+  p { color: #8b9aa5; margin: 0 0 20px; font-size: 14px; }
+  .room { font: 600 28px ui-monospace, "SF Mono", Consolas, monospace;
+    letter-spacing: .3em; color: #31d07f; margin: 0 0 20px; }
+  a { display: block; padding: 16px; margin-bottom: 12px; border-radius: 10px;
+    background: #1d2830; border: 1px solid #2d3b45; color: #e8eef2;
+    text-decoration: none; font-size: 15px; }
+  a:hover { border-color: #3fa9f5; }
+  a small { display: block; color: #8b9aa5; font-size: 12px; margin-top: 4px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Panel → OBS リアルタイムデモ</h1>
+    <p>この端末用のルームコードを発行しました。</p>
+    <div class="room" id="room">----</div>
+    <a id="panelLink" href="#">操作パネルを開く<small>iPad / ブラウザで操作</small></a>
+    <a id="overlayLink" href="#">オーバーレイをプレビュー<small>OBS には &preview=1 なしのURLを貼付</small></a>
+  </div>
+  <script>
+    (function () {
+      var alphabet = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+      var code = '';
+      var rnd = new Uint8Array(4);
+      (window.crypto || {}).getRandomValues
+        ? window.crypto.getRandomValues(rnd)
+        : (rnd = [0, 0, 0, 0].map(function () { return Math.floor(Math.random() * 256); }));
+      for (var i = 0; i < 4; i++) code += alphabet[rnd[i] % alphabet.length];
+      document.getElementById('room').textContent = code;
+      document.getElementById('panelLink').href = '/panel?room=' + code;
+      document.getElementById('overlayLink').href = '/overlay?room=' + code + '&preview=1';
+    })();
+  </script>
+</body>
+</html>

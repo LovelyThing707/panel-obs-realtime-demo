@@ -3,6 +3,7 @@ npm-debug.log*
 .env
 .DS_Store
 *.local
+.vercel/
 
 # Internal strategy brief — competitive/business-sensitive (client budget, NDA,
 # rival). Deploy doesn't need it and it must not leave the machine. Remove this
