@@ -9,3 +9,6 @@ npm-debug.log*
 # rival). Deploy doesn't need it and it must not leave the machine. Remove this
 # line only if you deliberately want it in the remote.
 CLAUDE.md
+
+.vercel
+.env*

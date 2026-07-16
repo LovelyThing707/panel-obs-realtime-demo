@@ -1,7 +1,9 @@
 # The Vercel CLI uploads from disk (not git), so exclusions live here too.
 node_modules
 .git
+.vercel
 # Internal strategy brief — must never leave the machine (see .gitignore).
 CLAUDE.md
 *.log
 .env
+.env*
