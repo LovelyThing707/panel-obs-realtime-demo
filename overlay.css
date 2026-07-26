@@ -181,10 +181,50 @@ body.preview .preview-hud {
 .toast.show::after { animation: sweep 3.4s linear forwards; }
 @keyframes sweep { from { transform: scaleX(1); } to { transform: scaleX(0); } }
 
+/* ------------------------------------------------------- connect confirmation */
+
+/* Shown once when the source connects, then faded out. Exists because an OBS
+   Browser Source rendering a transparent page is visually indistinguishable
+   from one that failed to load — the operator needs proof it worked. */
+.connect-badge {
+  position: absolute;
+  top: 64px;
+  left: 50%;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 40px;
+  background: rgba(14, 20, 26, 0.82);
+  border: 1px solid rgba(49, 208, 127, 0.5);
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transform: translateX(-50%) translateY(-14px);
+  pointer-events: none;
+  transition: opacity 0.45s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.connect-badge.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.connect-dot {
+  width: 18px; height: 18px; border-radius: 50%; flex: none;
+  background: var(--connected);
+  box-shadow: 0 0 18px rgba(49, 208, 127, 0.8);
+}
+.connect-text {
+  font-size: 30px; font-weight: 800; color: var(--ink);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.65);
+  white-space: nowrap;
+}
+
 /* ----------------------------------------------------------- reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .stage, .title-card, .toast { transition-duration: 0.001ms; }
+  .stage, .title-card, .toast, .connect-badge { transition-duration: 0.001ms; }
   .title-card.enter, .toast.show::after { animation: none; }
   .toast { transition: opacity 0.2s ease; transform: none; }
   .toast.show { transform: none; }
+  .connect-badge { transform: translateX(-50%); }
+  .connect-badge.show { transform: translateX(-50%); }
 }

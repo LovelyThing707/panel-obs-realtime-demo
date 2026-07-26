@@ -20,6 +20,13 @@
     <!-- Transient generic notification cards mount here -->
     <div class="toast-layer" id="toastLayer" aria-hidden="true"></div>
 
+    <!-- Setup confirmation. A transparent overlay looks identical to a broken
+         one in OBS, so this proves the source connected, then fades away. -->
+    <div class="connect-badge" id="connectBadge" aria-hidden="true">
+      <span class="connect-dot"></span>
+      <span class="connect-text">接続完了 — パネルの操作を待機中</span>
+    </div>
+
     <!-- Preview-only heads-up (hidden in OBS) -->
     <div class="preview-hud" id="previewHud">
       <span class="preview-tag">PREVIEW</span>

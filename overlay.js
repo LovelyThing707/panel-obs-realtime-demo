@@ -17,8 +17,30 @@
   const titleCard = document.getElementById('titleCard');
   const titleText = document.getElementById('titleText');
   const toastLayer = document.getElementById('toastLayer');
+  const connectBadge = document.getElementById('connectBadge');
   const previewRoom = document.getElementById('previewRoom');
   const previewConn = document.getElementById('previewConn');
+
+  // ---- setup confirmation -------------------------------------------------
+  // In OBS a transparent page and a failed page look exactly the same: nothing.
+  // Show a one-shot badge on connect so the operator can see the source is
+  // live, then fade it so it never sits on top of a real scene. Once per page
+  // load only — reconnects must not flash it mid-stream.
+  const BADGE_HOLD_MS = 8000;
+  let badgeUsed = false;
+  let badgeTimer = null;
+
+  function showConnectBadge() {
+    if (badgeUsed || !connectBadge) return;
+    badgeUsed = true;
+    requestAnimationFrame(() => connectBadge.classList.add('show'));
+    badgeTimer = setTimeout(hideConnectBadge, BADGE_HOLD_MS);
+  }
+
+  function hideConnectBadge() {
+    clearTimeout(badgeTimer);
+    if (connectBadge) connectBadge.classList.remove('show');
+  }
 
   if (preview) {
     document.body.classList.add('preview');
@@ -83,6 +105,8 @@
   // ---- command handling ---------------------------------------------------
 
   function applyCommand(msg) {
+    // Real content is better proof than the badge — retire it immediately.
+    hideConnectBadge();
     switch (msg.action) {
       case 'text':
         renderText(msg.payload && msg.payload.text);
@@ -127,6 +151,7 @@
   });
 
   link.on('status', (state) => {
+    if (state === 'open') showConnectBadge();
     if (preview && state !== 'open') previewConn.textContent = state;
   });
 
